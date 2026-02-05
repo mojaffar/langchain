@@ -1,0 +1,22 @@
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+lvenv/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+
+# IDE
+.vscode/
+
+# FAISS index or other local DBs
+faiss_index/
