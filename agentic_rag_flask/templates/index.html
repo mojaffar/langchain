@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agentic RAG Flask</title>
+</head>
+<body>
+
+<h2>Upload PDF</h2>
+
+<form onsubmit="event.preventDefault();">
+    <input type="file" id="pdfFile">
+    <button type="button" onclick="uploadPDF()">Upload</button>
+</form>
+
+<hr>
+
+<h2>Ask Question</h2>
+
+<form onsubmit="event.preventDefault();">
+    <input type="text" id="question" placeholder="Ask Question"/>
+    <button type="button" onclick="askQuestion()">Ask</button>
+</form>
+
+<h3>Answer:</h3>
+<p id="answer"></p>
+
+<script>
+
+async function askQuestion() {
+
+    let question = document.getElementById("question").value;
+
+    let response = await fetch("/rag", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            query: question
+        })
+    });
+
+    let data = await response.json();
+
+    document.getElementById("answer").innerText = data.response || data.error;
+}
+
+async function uploadPDF() {
+
+    const fileInput = document.getElementById("pdfFile");
+
+    if (fileInput.files.length === 0) {
+        alert("Please select a PDF first!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    const response = await fetch("/upload", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await response.json();
+    alert(data.message);
+}
+
+</script>
+
+</body>
+</html>
