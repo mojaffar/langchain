@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Enterprise Agentic RAG</h2>
+
+<input type="text" id="question" placeholder="Ask Question"/>
+<button onclick="askQuestion()">Ask</button>
+
+<p id="answer"></p>
+
+<script>
+
+async function askQuestion() {
+
+    let question = document.getElementById("question").value;
+
+    let response = await fetch("/rag", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({query:question})
+    });
+
+    let data = await response.json();
+    document.getElementById("answer").innerText = data.response;
+}
+
+</script>
+
+</body>
+</html>
